@@ -16,9 +16,17 @@ public class WaypointFollow : MonoBehaviour
     private void Start()
     {
         //Encontrando os objetos na cena com a tag "waypoint"//
-        waypoints = GameObject.FindGameObjectsWithTag("waypoint");
-        
-    
+        waypoints = GameObject.FindGameObjectsWithTag("waypoint"); 
+    }
+
+    private void LateUpdate()
+    {
+        if (waypoints.Length == 0) return;
+        {
+            Vector3 lookAtGoal = new Vector3(waypoints[currentWP].transform.position.x, this.transform.position.y, waypoints[currentWP].transform.position.z);
+            Vector3 direction = lookAtGoal - this.transform.position;
+            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * rotspeed);
+        }
     }
 
 
